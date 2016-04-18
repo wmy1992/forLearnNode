@@ -6,7 +6,7 @@ function noLogin(req,res,next){
     if(!req.session.user){
         console.log("抱歉，还未登陆");
         req.session.error="抱歉，还未登陆";
-        return res.redirect("/login");
+        return res.redirect("/login_register");
     }
     next();
 }

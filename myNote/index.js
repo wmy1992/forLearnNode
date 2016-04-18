@@ -45,11 +45,7 @@ app.use(function(req,res,next){
     delete req.session.error;
     res.locals.message='';
     if(err){
-        res.locals.message='<div class="alert alert-danger">'
-                            + ' <button type="button" class="close" data-dismiss="alert" aria-hidden="false">'
-                            + '&times;'
-                            +'</button>'
-                            +err+'</div>'
+        res.locals.message=err;
     }
     next();
 });
@@ -77,22 +73,27 @@ app.get('/',function(req,res){
     req.session.lastPage="/";
 });
 
-app.get('/register',checkLogin.hasLogin);
+app.get('/login_register',function(req,res){
+    res.render('login_register',{
+        title:'登陆/注册'
+    });
+});
+/*app.get('/register',checkLogin.hasLogin);
 //response get request for regist page
 app.get('/register',function(req,res){
     console.log('注册！');
-    res.render('register',{
+    res.render('login_register',{
         user:req.session.user,
         title:'注册'
     });
-});
+});*/
 
 app.post('/register',function(req,res){
+    console.log("register post");
     var username=req.body.username,
-        password=req.body.password,
-        passwordRepeat=req.body.passwordRepeat;
+        password=req.body.password;
 
-    if(!(/^(\w){3,20}$/.test(username))){
+    /*if(!(/^(\w){3,20}$/.test(username))){
         console.log("用户名只能是字母、数字、下划线的组合，长度3-20个字符");
         req.session.error="用户名只能是字母、数字、下划线的组合，长度3-20个字符";
         return res.redirect('/register');
@@ -111,18 +112,19 @@ app.post('/register',function(req,res){
     if(password != passwordRepeat){
         console.log("密码不一致呀");
         req.session.error="密码不一致呀";
-        return res.redirect('/register');
-    }
+        return res.redirect('/login_register');
+    }*/
 
     User.findOne({username:username},function(err,user){
         if(err){
             console.log(err);
-            return res.redirect('/register');
+            req.session.error='网络繁忙';
+            return res.redirect('/login_register');
         }
         if(user){
             console.log('用户名已经存在');
-            req.session.error="'用户名已经存在";
-            return res.redirect('/register');
+            req.session.error="用户名已经存在";
+            return res.redirect('/login_register');
         }
         var md5=crypto.createHash('md5'),
             md5password=md5.update(password).digest('hex');
@@ -135,27 +137,31 @@ app.post('/register',function(req,res){
         newUser.save(function(err,doc){
             if(err){
                 console.log(err);
-                return res.redirect('/register');
+                return res.redirect('/login_register');
             }
             console.log('注册成功');
+            newUser.password=null;
+            delete newUser.password;
+            req.session.user=newUser;
             return res.redirect('/');
         });
     });
 });
 
-app.get('/login',checkLogin.hasLogin);
+/*app.get('/login',checkLogin.hasLogin);
 app.get('/login',function(req,res){
     console.log("登录！");
-    res.render('login',{
+    res.render('login_register',{
         user:req.session.user,
         title:'登录'
     });
-});
+});*/
 app.post('/login',function(req,res){
     var username=req.body.username,
         password=req.body.password;
 
-    if(!(/^(\w){3,20}$/.test(username))){
+    console.log("login post");
+    /*if(!(/^(\w){3,20}$/.test(username))){
         console.log("用户名只能是字母、数字、下划线的组合，长度3-20个字符");
         req.session.error="用户名只能是字母、数字、下划线的组合，长度3-20个字符";
         return res.redirect('/login');
@@ -168,8 +174,8 @@ app.post('/login',function(req,res){
         )){
         console.log("密码：长度不能少于6，必须同时包含数字、小写字母、大写字母。");
         req.session.error="密码：长度不能少于6，必须同时包含数字、小写字母、大写字母。";
-        return res.redirect('/login');
-    }
+        return res.redirect('/login_register');
+    }*/
 
     User.findOne({username:username},function(err,user){
         if(err){
@@ -180,7 +186,7 @@ app.post('/login',function(req,res){
         if(!user){
             console.log("用户不存在");
             req.session.error="用户不存在";
-            return res.redirect('/login');
+            return res.redirect('/login_register');
         }
 
         var md5=crypto.createHash('md5'),
@@ -188,7 +194,7 @@ app.post('/login',function(req,res){
         if(user.password!==md5password){
             console.log('密码错误');
             req.session.error="密码错误";
-            return res.redirect('/login');
+            return res.redirect('/login_register');
         }
         console.log("登陆成功");
         user.password=null;
@@ -201,7 +207,7 @@ app.get('/quit',function(req,res){
     req.session.user=null;
     req.session.lastPage=null;
     console.log("退出！");
-    return res.redirect('/login');
+    return res.redirect('/login_register');
 });
 
 app.get('/post',function(req,res){
