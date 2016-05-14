@@ -1,0 +1,143 @@
+<%- include header %>
+<div class="main-container" id="main-container">
+	<div class="row">
+		<div class="col-xs-10 col-xs-offset-1">
+			<h3 class="header smaller lighter blue">My Notes</h3>
+
+			<div class="clearfix">
+				<div class="pull-right tableTools-container">
+					<div class="dt-buttons btn-overlap btn-group">
+						<a class="dt-button buttons-collection buttons-colvis btn btn-white btn-primary btn-bold" tabindex="0" aria-controls="dynamic-table" data-original-title="" title="" href="/post">
+							<span><i class="menu-icon fa fa-pencil-square-o" > </i></span>
+						    <a class="dt-button buttons-copy buttons-flash btn btn-white btn-primary btn-bold" tabindex="0" aria-controls="dynamic-table"><span>
+									<i class="fa fa-copy bigger-110 pink"></i>
+									<span class="hidden">Copy to clipboard</span>
+								</span><div style="position: absolute; left: 0px; top: 0px; width: 42px; height: 35px; z-index: 99;" data-original-title="" title=""><embed id="ZeroClipboard_TableToolsMovie_1" src="../assets/js/dataTables/extensions/buttons/swf/flashExport.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="42" height="35" name="ZeroClipboard_TableToolsMovie_1" align="middle" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=1&amp;width=42&amp;height=35" wmode="transparent"></div></a><a class="dt-button buttons-csv buttons-html5 btn btn-white btn-primary btn-bold" tabindex="0" aria-controls="dynamic-table" data-original-title="" title=""><span><i class="fa fa-database bigger-110 orange"></i> <span class="hidden">Export to CSV</span></span></a><a class="dt-button buttons-excel buttons-flash btn btn-white btn-primary btn-bold" tabindex="0" aria-controls="dynamic-table"><span><i class="fa fa-file-excel-o bigger-110 green"></i> <span class="hidden">Export to Excel</span></span><div style="position: absolute; left: 0px; top: 0px; width: 39px; height: 35px; z-index: 99;" data-original-title="" title=""><embed id="ZeroClipboard_TableToolsMovie_2" src="../assets/js/dataTables/extensions/buttons/swf/flashExport.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="39" height="35" name="ZeroClipboard_TableToolsMovie_2" align="middle" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=2&amp;width=39&amp;height=35" wmode="transparent"></div></a><a class="dt-button buttons-pdf buttons-flash btn btn-white btn-primary btn-bold" tabindex="0" aria-controls="dynamic-table"><span><i class="fa fa-file-pdf-o bigger-110 red"></i> <span class="hidden">Export to PDF</span></span><div style="position: absolute; left: 0px; top: 0px; width: 39px; height: 35px; z-index: 99;" data-original-title="" title=""><embed id="ZeroClipboard_TableToolsMovie_3" src="../assets/js/dataTables/extensions/buttons/swf/flashExport.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="39" height="35" name="ZeroClipboard_TableToolsMovie_3" align="middle" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=3&amp;width=39&amp;height=35" wmode="transparent"></div></a><a class="dt-button buttons-print btn btn-white btn-primary btn-bold" tabindex="0" aria-controls="dynamic-table" data-original-title="" title=""><span><i class="fa fa-print bigger-110 grey"></i> <span class="hidden">Print</span></span></a></div></div>
+			</div>
+			<div class="table-header">
+				Notes List
+			</div>
+
+			<!-- div.table-responsive -->
+
+			<!-- div.dataTables_borderWrap -->
+			<div>
+				<div id="dynamic-table_wrapper" class="dataTables_wrapper form-inline no-footer"><div class="row"><div class="col-xs-6"><div class="dataTables_length" id="dynamic-table_length"><label>Display <select name="dynamic-table_length" aria-controls="dynamic-table" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> records</label></div></div><div class="col-xs-6"><div id="dynamic-table_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="dynamic-table"></label></div></div></div><table id="dynamic-table" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="dynamic-table_info">
+						<thead>
+						<tr role="row"><th class="center sorting_disabled" rowspan="1" colspan="1" aria-label="">
+								<label class="pos-rel">
+									<input type="checkbox" class="ace">
+									<span class="lbl"></span>
+								</label>
+							</th><th  rowspan="1" colspan="1" aria-label="Domain: activate to sort column ascending">标题</th>
+							 <th   rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending">标签</th>
+ 							<th class="sorting" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Update: activate to sort column ascending">
+								<i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>日期</th>
+							<th class="hidden-480 sorting" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th>
+							<th class="sorting_disabled" rowspan="1" colspan="1" aria-label=""></th>
+							  </tr>
+						</thead>
+						<tbody>
+						<%notes.forEach(function(note){%>
+						<tr role="row" class="odd">
+							<td class="center">
+								<label class="pos-rel">
+									<input type="checkbox" class="ace">
+									<span class="lbl"></span>
+								</label>
+							</td>
+							<td>
+								<a href="/detail/<%=note.id%>"><%=note.title%></a>
+							</td>
+							<td><%=note.tag%></td>
+							<td><%=note.createTime%></td>
+							<td class="hidden-480">
+								<span class="label label-sm label-warning">Expiring</span>
+							</td>
+							<td>
+								<div class="hidden-sm hidden-xs action-buttons">
+									<a class="blue" href="#">
+										<i class="ace-icon fa fa-search-plus bigger-130"></i>
+									</a>
+
+									<a class="green" href="#">
+										<i class="ace-icon fa fa-pencil bigger-130"></i>
+									</a>
+
+									<a class="red" href="#">
+										<i class="ace-icon fa fa-trash-o bigger-130"></i>
+									</a>
+								</div>
+
+								<div class="hidden-md hidden-lg">
+									<div class="inline pos-rel">
+										<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+											<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+										</button>
+
+										<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+											<li>
+												<a href="#" class="tooltip-info" data-rel="tooltip" title="" data-original-title="View">
+																				<span class="blue">
+																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
+																				</span>
+												</a>
+											</li>
+
+											<li>
+												<a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Edit">
+																				<span class="green">
+																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																				</span>
+												</a>
+											</li>
+
+											<li>
+												<a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
+																				<span class="red">
+																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
+																				</span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<%});%>
+						</tbody>
+					</table><div class="row"><div class="col-xs-6"><div class="dataTables_info" id="dynamic-table_info" role="status" aria-live="polite">Showing 1 to 10 of 23 entries</div></div><div class="col-xs-6"><div class="dataTables_paginate paging_simple_numbers" id="dynamic-table_paginate"><ul class="pagination"><li class="paginate_button previous disabled" aria-controls="dynamic-table" tabindex="0" id="dynamic-table_previous"><a href="#">Previous</a></li><li class="paginate_button active" aria-controls="dynamic-table" tabindex="0"><a href="#">1</a></li><li class="paginate_button " aria-controls="dynamic-table" tabindex="0"><a href="#">2</a></li><li class="paginate_button " aria-controls="dynamic-table" tabindex="0"><a href="#">3</a></li><li class="paginate_button next" aria-controls="dynamic-table" tabindex="0" id="dynamic-table_next"><a href="#">Next</a></li></ul></div></div></div></div>
+			</div>
+		</div>
+	</div>
+
+	<!--old
+	<div class="row">
+				<table class="table table-striped">
+					<caption>我的笔记列表</caption>
+					<thead>
+					<tr>
+						<th>标题</th>
+						<th>标签</th>
+						<th>日期</th>
+					</tr>
+					</thead>
+					<tbody>
+					<%notes.forEach(function(note){%>
+					<tr>
+						<td>
+							<a href="/detail/<%=note._id%>"><%=note.title%></a>
+						</td>
+						<td><%=note.tag%></td>
+						<td><%=note.createTime%></td>
+					</tr>
+					<%});%>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		-->
+
+</div>
+<%- include footer%>
